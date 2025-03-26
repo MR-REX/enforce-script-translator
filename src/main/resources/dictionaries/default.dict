@@ -1,0 +1,72 @@
+# General modifiers
+
+private: private
+protected: protected
+static: static
+override: override
+proto: proto
+native: native
+
+# Variable modifiers
+
+autoptr: autoptr
+ref: ref
+const: const
+out: out
+inout: inout
+
+# Class modifiers
+
+modded: modded
+
+# Other keywords
+
+new: new
+delete: delete
+class: class
+enum: enum
+extends: extends
+typedef: typedef
+return: return
+null: null
+this: this
+super: super
+thread: thread
+
+# Primitive types
+
+int: int
+float: float
+bool: bool
+string: string
+vector: vector
+void: void
+
+# Reserverd keywords
+
+true: true
+false: false
+
+# Other types
+
+auto: auto
+Class: Class
+
+# If statement
+
+if: if
+else: else
+
+# Switch statement
+
+switch: switch
+case: case
+default: default
+break: break
+
+# Iteration structures
+
+for: for
+foreach: foreach
+while: while
+continue: continue

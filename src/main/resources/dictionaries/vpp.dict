@@ -1,0 +1,72 @@
+# General modifiers
+
+private: царский, тайный
+protected: дружинный, охраняемый
+static: незыблемый, вечный
+override: перенять, перебить
+proto: первообраз
+native: родной
+
+# Variable modifiers
+
+autoptr: самоуказ
+ref: указ, ссыль
+const: приказ_княжий, нерушимый, заветный
+out: исход, молвить
+inout: туда_сюда, внемлить
+
+# Class modifiers
+
+modded: перекроенный
+
+# Other keywords
+
+new: новь, новый
+delete: избыть, стереть
+class: род, династия
+enum: перепись
+extends: потомок
+typedef: прозвище, обозвать
+return: воздать, вернуть
+null: ничто, пустошь
+this: сей, местный
+super: прародитель
+thread: нить
+
+# Primitive types
+
+int: целое
+float: дробь, плавь
+bool: правь
+string: речь
+vector: положение, место
+void: бестолочь, ничего
+
+# Reserverd keywords
+
+true: правда
+false: кривда
+
+# Other types
+
+auto: само
+Class: Род, Династия
+
+# If statement
+
+if: коли
+else: отнюдь
+
+# Switch statement
+
+switch: путевой_камень
+case: путь
+default: народный
+break: сломить
+
+# Iteration structures
+
+for: доколе, для
+foreach: по_всякому
+while: покуда
+continue: далее
