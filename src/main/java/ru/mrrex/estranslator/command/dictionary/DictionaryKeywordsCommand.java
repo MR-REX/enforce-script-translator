@@ -85,7 +85,7 @@ public class DictionaryKeywordsCommand implements Callable<Integer> {
         logger.info("Keyword-value pairs:");
 
         dictionary.forEach((keyword, value) -> {
-            String pair = String.format("\"%s\": \"%s\"", keyword, value);
+            String pair = String.format("\"%s\" -> \"%s\"", keyword, value);
             logger.info(pair);
         });
     }
