@@ -1,4 +1,4 @@
-package ru.mrrex.enforcescripttranslator.dictionary;
+package ru.mrrex.estranslator.dictionary;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
-import ru.mrrex.enforcescripttranslator.exception.KeywordDictionaryParseException;
+import ru.mrrex.estranslator.exception.KeywordDictionaryParseException;
 
 public enum KeywordDictionaryManager {
 

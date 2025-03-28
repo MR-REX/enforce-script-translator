@@ -1,11 +1,11 @@
-package ru.mrrex.enforcescripttranslator;
+package ru.mrrex.estranslator;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
-import ru.mrrex.enforcescripttranslator.command.DictionaryCommand;
+import ru.mrrex.estranslator.command.DictionaryCommand;
 
 @Command(
-    name = "Enforce Script Translator",
+    name = "estranslator",
     description = "Allows you to translate scripts with custom keywords into Enforce Script according to the specification.",
     mixinStandardHelpOptions = true,
     subcommands = {

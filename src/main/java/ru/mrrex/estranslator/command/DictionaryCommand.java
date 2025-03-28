@@ -1,8 +1,8 @@
-package ru.mrrex.enforcescripttranslator.command;
+package ru.mrrex.estranslator.command;
 
 import picocli.CommandLine.Command;
-import ru.mrrex.enforcescripttranslator.command.dictionary.DictionaryKeywordsCommand;
-import ru.mrrex.enforcescripttranslator.command.dictionary.DictionaryListCommand;
+import ru.mrrex.estranslator.command.dictionary.DictionaryKeywordsCommand;
+import ru.mrrex.estranslator.command.dictionary.DictionaryListCommand;
 
 @Command(
     name = "dictionary",

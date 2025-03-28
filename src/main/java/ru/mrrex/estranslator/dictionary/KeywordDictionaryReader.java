@@ -1,4 +1,4 @@
-package ru.mrrex.enforcescripttranslator.dictionary;
+package ru.mrrex.estranslator.dictionary;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.Reader;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.stream.Stream;
-import ru.mrrex.enforcescripttranslator.exception.KeywordDictionaryParseException;
+import ru.mrrex.estranslator.exception.KeywordDictionaryParseException;
 
 public class KeywordDictionaryReader implements AutoCloseable {
 

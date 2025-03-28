@@ -1,4 +1,4 @@
-package ru.mrrex.enforcescripttranslator.command.dictionary;
+package ru.mrrex.estranslator.command.dictionary;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Option;
-import ru.mrrex.enforcescripttranslator.dictionary.KeywordDictionary;
-import ru.mrrex.enforcescripttranslator.dictionary.KeywordDictionaryManager;
-import ru.mrrex.enforcescripttranslator.exception.KeywordDictionaryParseException;
+import ru.mrrex.estranslator.dictionary.KeywordDictionary;
+import ru.mrrex.estranslator.dictionary.KeywordDictionaryManager;
+import ru.mrrex.estranslator.exception.KeywordDictionaryParseException;
 
 @Command(
     name = "keywords",

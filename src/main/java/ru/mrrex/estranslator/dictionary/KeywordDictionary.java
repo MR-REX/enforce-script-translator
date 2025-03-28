@@ -1,11 +1,11 @@
-package ru.mrrex.enforcescripttranslator.dictionary;
+package ru.mrrex.estranslator.dictionary;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import ru.mrrex.enforcescripttranslator.exception.KeywordAlreadyExistsException;
+import ru.mrrex.estranslator.exception.KeywordAlreadyExistsException;
 
 public class KeywordDictionary {
 

@@ -1,4 +1,4 @@
-package ru.mrrex.enforcescripttranslator.exception;
+package ru.mrrex.estranslator.exception;
 
 public class KeywordAlreadyExistsException extends IllegalStateException {
 

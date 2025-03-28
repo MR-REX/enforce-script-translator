@@ -1,4 +1,4 @@
-package ru.mrrex.enforcescripttranslator.command;
+package ru.mrrex.estranslator.command;
 
 import java.nio.file.Path;
 import java.util.List;

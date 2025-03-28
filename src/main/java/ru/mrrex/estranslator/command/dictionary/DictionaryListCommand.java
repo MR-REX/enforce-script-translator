@@ -1,4 +1,4 @@
-package ru.mrrex.enforcescripttranslator.command.dictionary;
+package ru.mrrex.estranslator.command.dictionary;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
-import ru.mrrex.enforcescripttranslator.dictionary.KeywordDictionaryManager;
+import ru.mrrex.estranslator.dictionary.KeywordDictionaryManager;
 
 @Command(
     name = "list",
