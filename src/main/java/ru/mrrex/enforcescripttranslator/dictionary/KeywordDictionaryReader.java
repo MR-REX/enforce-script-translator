@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import ru.mrrex.enforcescripttranslator.exception.KeywordDictionaryParseException;
 
@@ -25,25 +24,25 @@ public class KeywordDictionaryReader implements AutoCloseable {
             if (line.isEmpty() || line.startsWith("# "))
                 continue;
 
-            String[] parts = line.split(":\\s*");
+            String[] parts = line.split("\\:\\s*");
 
             if (parts.length != 2)
-                throw new KeywordDictionaryParseException("");
+                throw new KeywordDictionaryParseException("Incorrect line format");
 
-            String[] uncheckedValues = parts[1].split(",\\s*");
+            String[] uncheckedKeywords = parts[1].split("\\,\\s*");
 
-            String key = parts[0];
-            List<String> values = Stream.of(uncheckedValues)
+            String value = parts[0];
+            List<String> keywords = Stream.of(uncheckedKeywords)
                     .map(String::trim)
                     .filter(v -> !v.isEmpty())
-                    .collect(Collectors.toList());
+                    .toList();
 
-            consumer.accept(key, values);
+            consumer.accept(value, keywords);
         }
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws IOException {
         bufferedReader.close();
     }
 }
