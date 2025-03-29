@@ -1,10 +1,10 @@
-package ru.mrrex.estranslator.dictionary;
+package ru.mrrex.estranslator.dictionary.keyword;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import ru.mrrex.estranslator.exception.KeywordAlreadyExistsException;
+import ru.mrrex.estranslator.exception.dictionary.keyword.KeywordAlreadyExistsException;
 
 public class KeywordDictionary {
 
@@ -91,6 +91,6 @@ public class KeywordDictionary {
 
     @Override
     public String toString() {
-        return "KeywordDictionary [keywords=" + dictionary.keySet().size() + "]";
+        return "KeywordDictionary [keywords=" + dictionary.size() + "]";
     }
 }

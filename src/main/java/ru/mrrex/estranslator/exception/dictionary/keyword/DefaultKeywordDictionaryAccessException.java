@@ -1,4 +1,4 @@
-package ru.mrrex.estranslator.exception;
+package ru.mrrex.estranslator.exception.dictionary.keyword;
 
 public class DefaultKeywordDictionaryAccessException extends RuntimeException {
 

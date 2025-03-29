@@ -1,6 +1,6 @@
 package ru.mrrex.estranslator.translator;
 
-import ru.mrrex.estranslator.dictionary.KeywordDictionary;
+import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
 
 public class EnfusionScriptTranslator extends AbstractScriptTranslator {
 

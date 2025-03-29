@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
-import ru.mrrex.estranslator.dictionary.KeywordDictionaryManager;
+import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
 
 @Command(
     name = "list",

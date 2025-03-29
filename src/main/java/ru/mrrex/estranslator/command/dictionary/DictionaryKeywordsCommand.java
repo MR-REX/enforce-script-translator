@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Option;
-import ru.mrrex.estranslator.dictionary.KeywordDictionary;
-import ru.mrrex.estranslator.dictionary.KeywordDictionaryManager;
-import ru.mrrex.estranslator.exception.KeywordDictionaryParseException;
+import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
+import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
+import ru.mrrex.estranslator.exception.dictionary.keyword.KeywordDictionaryParseException;
 
 @Command(
     name = "keywords",
