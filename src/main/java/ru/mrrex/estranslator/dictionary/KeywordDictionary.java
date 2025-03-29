@@ -1,7 +1,6 @@
 package ru.mrrex.estranslator.dictionary;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -31,10 +30,7 @@ public class KeywordDictionary {
     }
 
     public Set<String> getKeywords() {
-        Set<String> keywords = new HashSet<>();
-        keywords.addAll(dictionary.keySet());
-
-        return keywords;
+        return Set.copyOf(dictionary.keySet());
     }
 
     public String getValue(String keyword) {

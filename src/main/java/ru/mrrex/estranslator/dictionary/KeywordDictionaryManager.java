@@ -5,10 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import ru.mrrex.estranslator.exception.DefaultKeywordDictionaryAccessException;
 import ru.mrrex.estranslator.exception.KeywordDictionaryParseException;
 
 public enum KeywordDictionaryManager {
@@ -55,7 +57,7 @@ public enum KeywordDictionaryManager {
         if (inputStream == null)
             throw new FileNotFoundException("Dictionary file not found");
 
-        try (InputStreamReader streamReader = new InputStreamReader(inputStream);
+        try (InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
                 KeywordDictionaryReader reader = new KeywordDictionaryReader(streamReader)) {
             return readDictionary(reader);
         }
@@ -63,7 +65,7 @@ public enum KeywordDictionaryManager {
 
     private KeywordDictionary loadDictionary(Path filePath)
             throws IOException, KeywordDictionaryParseException {
-        try (FileReader fileReader = new FileReader(filePath.toFile());
+        try (FileReader fileReader = new FileReader(filePath.toFile(), StandardCharsets.UTF_8);
                 KeywordDictionaryReader reader = new KeywordDictionaryReader(fileReader)) {
             return readDictionary(reader);
         }
@@ -95,9 +97,12 @@ public enum KeywordDictionaryManager {
         return dictionary;
     }
 
-    public KeywordDictionary getDefaultDictionary()
-            throws IOException, KeywordDictionaryParseException {
-        return getDictionary(DEFAULT_DICTIONARY_ID);
+    public KeywordDictionary getDefaultDictionary() {
+        try {
+            return getDictionary(DEFAULT_DICTIONARY_ID);
+        } catch (Exception exception) {
+            throw new DefaultKeywordDictionaryAccessException(DEFAULT_DICTIONARY_ID, exception);
+        }
     }
 
     public KeywordDictionary getJointDictionary(String dictionaryId)
