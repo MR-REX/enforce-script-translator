@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import ru.mrrex.estranslator.exception.dictionary.keyword.DefaultKeywordDictionaryAccessException;
 import ru.mrrex.estranslator.exception.dictionary.keyword.KeywordDictionaryParseException;
+import ru.mrrex.estranslator.util.ResourceLoader;
 
 public enum KeywordDictionaryManager {
 
@@ -44,15 +45,13 @@ public enum KeywordDictionaryManager {
 
     private KeywordDictionary loadDictionary(String dictionaryId)
             throws IOException, KeywordDictionaryParseException {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
-        if (classLoader == null)
-            classLoader = getClass().getClassLoader();
+        if (!dictionaryId.matches("[a-zA-Z0-9]+"))
+            throw new IllegalArgumentException("Unsafe keyword dictionary ID cannot be processed");
 
         String fileName = dictionaryId + DEFAULT_DICTIONARY_EXTENSION;
         String filePath = Paths.get(DEFAULT_DICTIONARIES_DIRECTORY, fileName).toString();
 
-        InputStream inputStream = classLoader.getResourceAsStream(filePath);
+        InputStream inputStream = ResourceLoader.getResourceAsStream(filePath);
 
         if (inputStream == null)
             throw new FileNotFoundException("Dictionary file not found");
