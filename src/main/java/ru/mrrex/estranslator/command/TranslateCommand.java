@@ -29,33 +29,35 @@ public class TranslateCommand implements Callable<Integer> {
 
     private static final Logger logger = LoggerFactory.getLogger(TranslateCommand.class);
 
-    @Option(
-        names = {"-k", "--keywords"},
-        required = true,
-        defaultValue = KeywordDictionaryManager.DEFAULT_DICTIONARY_ID,
-        description = ""
-    )
+    @Option(names = {"-k", "--keywords"}, required = true,
+            defaultValue = KeywordDictionaryManager.DEFAULT_DICTIONARY_ID,
+            description = "ID or Path of the keyword dictionary file")
     private String keywordDictionaryId;
 
-    @Option(names = {"-c", "--characters"}, description = "")
+    @Option(names = {"-c", "--characters"},
+            description = "IDs or Paths of the character dictionary files")
     private String characterDictionariesPaths;
 
-    @Option(names = {"-i", "--in", "--input"}, required = true, description = "")
+    @Option(names = {"-i", "--in", "--input"}, required = true,
+            description = "Input files/directories paths")
     private Path inputPath;
 
-    @Option(names = {"-o", "--out", "--output"}, required = true, description = "")
+    @Option(names = {"-o", "--out", "--output"}, required = true,
+            description = "Output files/directories paths")
     private Path outputPath;
 
-    @Option(names = {"-f", "--forced"}, description = "")
+    @Option(names = {"-f", "--forced"},
+            description = "Allows to overwrite files if they already exists")
     private boolean isForced;
 
-    @Option(names = {"-r", "--recursive"}, description = "")
+    @Option(names = {"-r", "--recursive"}, description = "Recursively go through the directories")
     private boolean isRecursive;
 
-    @Option(names = {"--depth"}, defaultValue = "" + Integer.MAX_VALUE, description = "")
+    @Option(names = {"--depth"}, defaultValue = "" + Integer.MAX_VALUE,
+            description = "Maximum depth of recursive directory traversal")
     private int maxRecursionDepth;
 
-    @Option(names = {"--clear"}, description = "")
+    @Option(names = {"--clear"}, description = "Delete comments in output files")
     private boolean shouldRemoveComments;
 
     private ScriptTranslatorConfiguration scriptTranslatorConfiguration;
@@ -131,7 +133,7 @@ public class TranslateCommand implements Callable<Integer> {
     }
 
     private int processDirectory(Path inputDirectoryPath, Path outputDirectoryPath) {
-        int maxDepth = isRecursive ? maxRecursionDepth : 0;
+        int maxDepth = isRecursive ? maxRecursionDepth : 1;
 
         try (Stream<Path> stream = Files.walk(inputDirectoryPath, maxDepth)) {
             stream.filter(Files::isRegularFile).forEach(filePath -> {
