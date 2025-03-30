@@ -14,7 +14,7 @@ import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Option;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
-import ru.mrrex.estranslator.exception.dictionary.keyword.KeywordDictionaryParseException;
+import ru.mrrex.estranslator.exception.DictionaryParseException;
 
 @Command(
     name = "keywords",
@@ -37,7 +37,7 @@ public class DictionaryKeywordsCommand implements Callable<Integer> {
     @Option(names = {"-p", "--pairs"}, description = "Displays keyword-value pairs")
     private boolean asKeywordValuePairs;
 
-    private KeywordDictionary getDictionary() throws IOException, KeywordDictionaryParseException {
+    private KeywordDictionary getDictionary() throws IOException, DictionaryParseException {
         KeywordDictionaryManager manager = KeywordDictionaryManager.INSTANCE;
 
         if (filePath != null) {
@@ -101,8 +101,7 @@ public class DictionaryKeywordsCommand implements Callable<Integer> {
                     exception.getMessage());
 
             return ExitCode.SOFTWARE;
-        } catch (KeywordDictionaryParseException exception) {
-            exception.printStackTrace();
+        } catch (DictionaryParseException exception) {
             logger.error("An error occurred while parsing the dictionary: \"{}\"",
                     exception.getMessage());
 

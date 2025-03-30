@@ -8,33 +8,34 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import ru.mrrex.estranslator.exception.dictionary.keyword.DefaultKeywordDictionaryAccessException;
-import ru.mrrex.estranslator.exception.dictionary.keyword.KeywordDictionaryParseException;
+import ru.mrrex.estranslator.cache.CacheAccessor;
+import ru.mrrex.estranslator.dictionary.DictionaryManager;
+import ru.mrrex.estranslator.exception.DictionaryParseException;
+import ru.mrrex.estranslator.exception.EmbeddedDictionaryAccessException;
 import ru.mrrex.estranslator.util.ResourceLoader;
 
-public enum KeywordDictionaryManager {
+public enum KeywordDictionaryManager implements DictionaryManager<KeywordDictionary> {
 
     INSTANCE;
 
-    private final HashMap<String, KeywordDictionary> dictionaries;
+    private final CacheAccessor<KeywordDictionary> cacheAccessor;
 
     private KeywordDictionaryManager() {
-        this.dictionaries = new HashMap<>();
+        this.cacheAccessor = new CacheAccessor<>(EMBEDDED_DICTIONARIES_DIRECTORY);
     }
 
     public static final String DEFAULT_DICTIONARY_ID = "default";
 
-    private static final String DEFAULT_DICTIONARIES_DIRECTORY = "dictionaries";
-    private static final String DEFAULT_DICTIONARY_EXTENSION = ".dict";
+    private static final String EMBEDDED_DICTIONARIES_DIRECTORY = "keywords";
+    private static final String EMBEDDED_DICTIONARY_EXTENSION = ".dict";
 
-    private static final List<String> DEFAULT_DICTIONARIES = List.of(
-        DEFAULT_DICTIONARY_ID, "vpp"
-    );
+    public List<String> getEmbeddedDictionaries() {
+        return List.of(DEFAULT_DICTIONARY_ID, "vpp");
+    }
 
     private KeywordDictionary readDictionary(KeywordDictionaryReader reader)
-            throws IOException, KeywordDictionaryParseException {
+            throws IOException, DictionaryParseException {
         KeywordDictionary dictionary = new KeywordDictionary();
 
         reader.read((value, keywords) -> keywords
@@ -44,54 +45,60 @@ public enum KeywordDictionaryManager {
     }
 
     private KeywordDictionary loadDictionary(String dictionaryId)
-            throws IOException, KeywordDictionaryParseException {
+            throws IOException, DictionaryParseException {
         if (!dictionaryId.matches("[a-zA-Z0-9]+"))
             throw new IllegalArgumentException("Unsafe keyword dictionary ID cannot be processed");
 
-        String fileName = dictionaryId + DEFAULT_DICTIONARY_EXTENSION;
-        String filePath = Paths.get(DEFAULT_DICTIONARIES_DIRECTORY, fileName).toString();
+        String fileName = dictionaryId + EMBEDDED_DICTIONARY_EXTENSION;
+        String filePath = Paths.get(EMBEDDED_DICTIONARIES_DIRECTORY, fileName).toString();
 
         InputStream inputStream = ResourceLoader.getResourceAsStream(filePath);
 
         if (inputStream == null)
-            throw new FileNotFoundException("Dictionary file not found");
+            throw new FileNotFoundException("Embedded keyword dictionary file not found");
 
-        try (InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                KeywordDictionaryReader reader = new KeywordDictionaryReader(streamReader)) {
+        try (
+            InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            KeywordDictionaryReader reader = new KeywordDictionaryReader(streamReader)
+        ) {
             return readDictionary(reader);
         }
     }
 
     private KeywordDictionary loadDictionary(Path filePath)
-            throws IOException, KeywordDictionaryParseException {
-        try (FileReader fileReader = new FileReader(filePath.toFile(), StandardCharsets.UTF_8);
-                KeywordDictionaryReader reader = new KeywordDictionaryReader(fileReader)) {
+            throws IOException, DictionaryParseException {
+        try (
+            FileReader fileReader = new FileReader(filePath.toFile(), StandardCharsets.UTF_8);
+            KeywordDictionaryReader reader = new KeywordDictionaryReader(fileReader)
+        ) {
             return readDictionary(reader);
         }
     }
 
+    @Override
     public KeywordDictionary getDictionary(String dictionaryId)
-            throws IOException, KeywordDictionaryParseException {
+            throws IOException, DictionaryParseException {
         String cacheId = "@Int." + dictionaryId;
 
-        if (dictionaries.containsKey(cacheId))
-            return dictionaries.get(cacheId);
+        if (cacheAccessor.hasKey(cacheId))
+            return cacheAccessor.get(cacheId);
 
         KeywordDictionary dictionary = loadDictionary(dictionaryId);
-        dictionaries.put(cacheId, dictionary);
+        cacheAccessor.set(cacheId, dictionary);
 
         return dictionary;
     }
 
+    @Override
     public KeywordDictionary getDictionary(Path filePath)
-            throws IOException, KeywordDictionaryParseException {
+            throws IOException, DictionaryParseException {
         String cacheId = filePath.toString();
 
-        if (dictionaries.containsKey(cacheId))
-            return dictionaries.get(cacheId);
+        if (cacheAccessor.hasKey(cacheId))
+            return cacheAccessor.get(cacheId);
 
         KeywordDictionary dictionary = loadDictionary(filePath);
-        dictionaries.put(cacheId, dictionary);
+        cacheAccessor.set(cacheId, dictionary);
 
         return dictionary;
     }
@@ -100,16 +107,16 @@ public enum KeywordDictionaryManager {
         try {
             return getDictionary(DEFAULT_DICTIONARY_ID);
         } catch (Exception exception) {
-            throw new DefaultKeywordDictionaryAccessException(DEFAULT_DICTIONARY_ID, exception);
+            throw new EmbeddedDictionaryAccessException(DEFAULT_DICTIONARY_ID, exception);
         }
     }
 
     public KeywordDictionary getJointDictionary(String dictionaryId)
-            throws IOException, KeywordDictionaryParseException {
+            throws IOException, DictionaryParseException {
         String cacheId = "@J.Int." + dictionaryId;
 
-        if (dictionaries.containsKey(cacheId))
-            return dictionaries.get(cacheId);
+        if (cacheAccessor.hasKey(cacheId))
+            return cacheAccessor.get(cacheId);
 
         KeywordDictionary defaultDictionary = getDefaultDictionary();
 
@@ -119,28 +126,24 @@ public enum KeywordDictionaryManager {
         KeywordDictionary dictionary = getDictionary(dictionaryId);
         KeywordDictionary jointDictionary = dictionary.intersection(defaultDictionary);
 
-        dictionaries.put(cacheId, jointDictionary);
+        cacheAccessor.set(cacheId, jointDictionary);
 
         return jointDictionary;
     }
 
     public KeywordDictionary getJointDictionary(Path filePath)
-            throws IOException, KeywordDictionaryParseException {
+            throws IOException, DictionaryParseException {
         String cacheId = "@J.Ext." + filePath.toString();
 
-        if (dictionaries.containsKey(cacheId))
-            return dictionaries.get(cacheId);
+        if (cacheAccessor.hasKey(cacheId))
+            return cacheAccessor.get(cacheId);
 
         KeywordDictionary defaultDictionary = getDefaultDictionary();
         KeywordDictionary dictionary = getDictionary(filePath);
 
         KeywordDictionary jointDictionary = dictionary.intersection(defaultDictionary);
-        dictionaries.put(cacheId, jointDictionary);
+        cacheAccessor.set(cacheId, jointDictionary);
 
         return jointDictionary;
-    }
-
-    public List<String> getEmbeddedDictionaries() {
-        return DEFAULT_DICTIONARIES;
     }
 }

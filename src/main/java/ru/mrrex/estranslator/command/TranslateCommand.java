@@ -12,7 +12,7 @@ import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Option;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
-import ru.mrrex.estranslator.exception.dictionary.keyword.KeywordDictionaryParseException;
+import ru.mrrex.estranslator.exception.DictionaryParseException;
 import ru.mrrex.estranslator.translator.EnfusionScriptTranslator;
 import ru.mrrex.estranslator.translator.ScriptTranslator;
 import ru.mrrex.estranslator.translator.ScriptTranslatorConfiguration;
@@ -56,7 +56,7 @@ public class TranslateCommand implements Callable<Integer> {
                 return manager.getDictionary(filePath);
 
             return manager.getDictionary(dictionaryId);
-        } catch (IOException | KeywordDictionaryParseException exception) {
+        } catch (IOException | DictionaryParseException exception) {
             throw new IllegalStateException(exception);
         }
     }
