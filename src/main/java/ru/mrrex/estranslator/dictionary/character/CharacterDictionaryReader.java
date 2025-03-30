@@ -17,13 +17,13 @@ public class CharacterDictionaryReader extends AbstractDictionaryReader<Characte
             throws IOException, DictionaryParseException {
         String[] parts = line.split("\\:\\s*");
 
-        if (parts.length != 2)
+        if (parts.length < 1)
             throw new DictionaryParseException("Incorrect line format");
 
         char fromCharacter = parts[0].charAt(0);
-        String toCharacters = parts[1];
+        String toCharacters = parts.length > 1 ? parts[1] : null;
 
-        if (toCharacters.isBlank())
+        if (toCharacters == null || toCharacters.isBlank())
             toCharacters = "";
 
         consumer.accept(fromCharacter, toCharacters);

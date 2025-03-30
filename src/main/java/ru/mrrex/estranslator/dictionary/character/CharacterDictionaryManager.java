@@ -8,10 +8,12 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import ru.mrrex.estranslator.cache.CacheAccessor;
 import ru.mrrex.estranslator.dictionary.DictionaryManager;
 import ru.mrrex.estranslator.exception.DictionaryParseException;
+import ru.mrrex.estranslator.exception.EmbeddedDictionaryAccessException;
 import ru.mrrex.estranslator.util.ResourceLoader;
 
 public enum CharacterDictionaryManager implements DictionaryManager<CharacterDictionary> {
@@ -27,7 +29,7 @@ public enum CharacterDictionaryManager implements DictionaryManager<CharacterDic
     private static final String EMBEDDED_DICTIONARIES_DIRECTORY = "characters";
     private static final String EMBEDDED_DICTIONARY_EXTENSION = ".char";
 
-    public List<String> getEmbeddedDictionaries() {
+    public List<String> getEmbeddedDictionaryIds() {
         return List.of("cyrillic");
     }
 
@@ -96,5 +98,19 @@ public enum CharacterDictionaryManager implements DictionaryManager<CharacterDic
         cacheAccessor.set(cacheId, dictionary);
 
         return dictionary;
+    }
+
+    public List<CharacterDictionary> getEmbeddedDictionaries() {
+        List<CharacterDictionary> embeddedDictioneries = new ArrayList<>();
+
+        for (String dictionaryId : getEmbeddedDictionaryIds()) {
+            try {
+                embeddedDictioneries.add(getDictionary(dictionaryId));
+            } catch (IOException | DictionaryParseException exception) {
+                throw new EmbeddedDictionaryAccessException(dictionaryId, exception);
+            }
+        }
+
+        return embeddedDictioneries;
     }
 }

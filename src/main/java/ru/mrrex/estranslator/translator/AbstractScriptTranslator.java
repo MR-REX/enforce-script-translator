@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
+import ru.mrrex.estranslator.transliterator.Transliterator;
 
 public abstract class AbstractScriptTranslator implements ScriptTranslator {
 
@@ -37,8 +38,7 @@ public abstract class AbstractScriptTranslator implements ScriptTranslator {
         return pattern.matcher(code).replaceAll("");
     }
 
-    @Override
-    public String processComments(String code) {
+    private String processComments(String code) {
         if (!config.isShouldRemoveComments())
             return code;
 
@@ -46,6 +46,15 @@ public abstract class AbstractScriptTranslator implements ScriptTranslator {
         code = removeMultiLineComments(code);
 
         return code;
+    }
+
+    private String useTransliterator(String code) {
+        Transliterator transliterator = config.getTransliterator();
+
+        if (transliterator == null)
+            return code;
+
+        return transliterator.transliterate(code);
     }
 
     @Override
@@ -59,6 +68,7 @@ public abstract class AbstractScriptTranslator implements ScriptTranslator {
         String translatedCode = translate(sourceCode);
 
         translatedCode = processComments(translatedCode);
+        translatedCode = useTransliterator(translatedCode);
 
         Files.writeString(outputFilePath, translatedCode, StandardCharsets.UTF_8);
     }

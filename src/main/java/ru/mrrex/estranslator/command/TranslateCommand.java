@@ -3,6 +3,7 @@ package ru.mrrex.estranslator.command;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
@@ -10,12 +11,14 @@ import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Option;
+import ru.mrrex.estranslator.dictionary.character.CharacterDictionaryManager;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
 import ru.mrrex.estranslator.exception.DictionaryParseException;
 import ru.mrrex.estranslator.translator.EnfusionScriptTranslator;
 import ru.mrrex.estranslator.translator.ScriptTranslator;
 import ru.mrrex.estranslator.translator.ScriptTranslatorConfiguration;
+import ru.mrrex.estranslator.transliterator.Transliterator;
 
 @Command(
     name = "translate",
@@ -25,9 +28,12 @@ public class TranslateCommand implements Callable<Integer> {
 
     private static final Logger logger = LoggerFactory.getLogger(TranslateCommand.class);
 
-    @Option(names = {"-d", "--dict"}, required = true,
+    @Option(names = {"-k", "--keywords"}, required = true,
             defaultValue = KeywordDictionaryManager.DEFAULT_DICTIONARY_ID, description = "")
-    private String dictionaryId;
+    private String keywordDictionaryId;
+
+    @Option(names = {"-c", "--characters"}, description = "")
+    private List<Path> characterDictionariesPaths;
 
     @Option(names = {"-i", "--in", "--input"}, required = true, description = "")
     private Path inputPath;
@@ -41,29 +47,41 @@ public class TranslateCommand implements Callable<Integer> {
     @Option(names = {"-r", "--recursive"}, description = "")
     private boolean isRecursive;
 
-    @Option(names = {"-l", "--depth"}, defaultValue = "" + Integer.MAX_VALUE, description = "")
+    @Option(names = {"--depth"}, defaultValue = "" + Integer.MAX_VALUE, description = "")
     private int maxRecursionDepth;
 
-    @Option(names = {"-c", "--clear"}, description = "")
+    @Option(names = {"--clear"}, description = "")
     private boolean shouldRemoveComments;
 
-    private KeywordDictionary getDictionary() {
+    private ScriptTranslatorConfiguration scriptTranslatorConfiguration;
+
+    private KeywordDictionary getKeywordDictionary() {
         KeywordDictionaryManager manager = KeywordDictionaryManager.INSTANCE;
-        Path filePath = Path.of(dictionaryId);
+        Path filePath = Path.of(keywordDictionaryId);
 
         try {
             if (Files.isRegularFile(filePath))
                 return manager.getDictionary(filePath);
 
-            return manager.getDictionary(dictionaryId);
+            return manager.getDictionary(keywordDictionaryId);
         } catch (IOException | DictionaryParseException exception) {
             throw new IllegalStateException(exception);
         }
     }
 
+    private Transliterator createTransliterator() {
+        Transliterator transliterator = new Transliterator();
+
+        CharacterDictionaryManager.INSTANCE.getEmbeddedDictionaries()
+                .forEach(transliterator::addCharacters);
+
+        return transliterator;
+    }
+
     private ScriptTranslatorConfiguration createTranslatorConfig() {
         ScriptTranslatorConfiguration config = new ScriptTranslatorConfiguration();
-        config.setDictionary(getDictionary());
+        config.setDictionary(getKeywordDictionary());
+        config.setTransliterator(createTransliterator());
         config.setSingleLineCommentCharacters("//");
         config.setStartMultiLineCommentCharacters("/*");
         config.setEndMultiLineCommentCharacters("*/");
@@ -73,7 +91,7 @@ public class TranslateCommand implements Callable<Integer> {
     }
 
     private ScriptTranslator createTranslator() {
-        return new EnfusionScriptTranslator(createTranslatorConfig());
+        return new EnfusionScriptTranslator(scriptTranslatorConfiguration);
     }
 
     private int processFile(Path inputFilePath, Path outputFilePath) {
@@ -129,6 +147,8 @@ public class TranslateCommand implements Callable<Integer> {
 
             return ExitCode.SOFTWARE;
         }
+
+        this.scriptTranslatorConfiguration = createTranslatorConfig();
 
         if (isDirectory) {
             int exitCode = processDirectory(inputPath, outputPath);

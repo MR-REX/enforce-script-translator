@@ -1,10 +1,12 @@
 package ru.mrrex.estranslator.translator;
 
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
+import ru.mrrex.estranslator.transliterator.Transliterator;
 
 public class ScriptTranslatorConfiguration {
 
     private KeywordDictionary dictionary;
+    private Transliterator transliterator;
 
     private String singleLineCommentCharacters;
     private String startMultiLineCommentCharacters;
@@ -18,6 +20,14 @@ public class ScriptTranslatorConfiguration {
 
     public void setDictionary(KeywordDictionary dictionary) {
         this.dictionary = dictionary;
+    }
+
+    public Transliterator getTransliterator() {
+        return transliterator;
+    }
+
+    public void setTransliterator(Transliterator transliterator) {
+        this.transliterator = transliterator;
     }
 
     public String getSingleLineCommentCharacters() {
