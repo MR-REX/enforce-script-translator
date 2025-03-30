@@ -57,8 +57,6 @@ public class KeywordDictionary extends AbstractDictionary<String, String> {
                 reversedMap.put(v, k);
         });
 
-        System.out.println(reversedMap);
-
         return new KeywordDictionary(reversedMap);
     }
 
