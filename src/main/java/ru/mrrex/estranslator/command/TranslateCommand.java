@@ -1,9 +1,9 @@
 package ru.mrrex.estranslator.command;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Stream;
 import org.slf4j.Logger;
@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Option;
+import ru.mrrex.estranslator.dictionary.character.CharacterDictionary;
 import ru.mrrex.estranslator.dictionary.character.CharacterDictionaryManager;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
@@ -28,12 +29,16 @@ public class TranslateCommand implements Callable<Integer> {
 
     private static final Logger logger = LoggerFactory.getLogger(TranslateCommand.class);
 
-    @Option(names = {"-k", "--keywords"}, required = true,
-            defaultValue = KeywordDictionaryManager.DEFAULT_DICTIONARY_ID, description = "")
+    @Option(
+        names = {"-k", "--keywords"},
+        required = true,
+        defaultValue = KeywordDictionaryManager.DEFAULT_DICTIONARY_ID,
+        description = ""
+    )
     private String keywordDictionaryId;
 
     @Option(names = {"-c", "--characters"}, description = "")
-    private List<Path> characterDictionariesPaths;
+    private String characterDictionariesPaths;
 
     @Option(names = {"-i", "--in", "--input"}, required = true, description = "")
     private Path inputPath;
@@ -75,6 +80,23 @@ public class TranslateCommand implements Callable<Integer> {
         CharacterDictionaryManager.INSTANCE.getEmbeddedDictionaries()
                 .forEach(transliterator::addCharacters);
 
+        if (characterDictionariesPaths != null) {
+            CharacterDictionaryManager manager = CharacterDictionaryManager.INSTANCE;
+            var stream = Stream.of(characterDictionariesPaths.split(File.pathSeparator));
+            
+            stream.map(Path::of).filter(Files::isRegularFile).forEach(path -> {
+                logger.debug("Adding characters from \"{}\"...", path);
+
+                try {
+                    CharacterDictionary characterDictionary = manager.getDictionary(path);
+                    transliterator.addCharacters(characterDictionary);
+                } catch (IOException | DictionaryParseException exception) {
+                    logger.warn("Failed to add characters file \"{}\": \"{}\"", path,
+                            exception.getMessage());
+                }
+            });
+        }
+
         return transliterator;
     }
 
@@ -95,6 +117,8 @@ public class TranslateCommand implements Callable<Integer> {
     }
 
     private int processFile(Path inputFilePath, Path outputFilePath) {
+        logger.debug("Translating file \"{}\" to \"{}\"...", inputFilePath, outputFilePath);
+
         try {
             ScriptTranslator translator = createTranslator();
             translator.translate(inputFilePath, outputFilePath);
@@ -148,6 +172,7 @@ public class TranslateCommand implements Callable<Integer> {
             return ExitCode.SOFTWARE;
         }
 
+        logger.debug("Creating configuration for the translator...");
         this.scriptTranslatorConfiguration = createTranslatorConfig();
 
         if (isDirectory) {
