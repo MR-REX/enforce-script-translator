@@ -53,7 +53,7 @@ public class TranslateCommand implements Callable<Integer> {
     @Option(names = {"-r", "--recursive"}, description = "Recursively go through the directories")
     private boolean isRecursive;
 
-    @Option(names = {"--depth"}, defaultValue = "" + Integer.MAX_VALUE,
+    @Option(names = {"--depth"}, defaultValue = "32",
             description = "Maximum depth of recursive directory traversal")
     private int maxRecursionDepth;
 
