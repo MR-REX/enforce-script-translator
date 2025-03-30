@@ -29,6 +29,7 @@ public enum CharacterDictionaryManager implements DictionaryManager<CharacterDic
     private static final String EMBEDDED_DICTIONARIES_DIRECTORY = "characters";
     private static final String EMBEDDED_DICTIONARY_EXTENSION = ".char";
 
+    @Override
     public List<String> getEmbeddedDictionaryIds() {
         return List.of("cyrillic");
     }

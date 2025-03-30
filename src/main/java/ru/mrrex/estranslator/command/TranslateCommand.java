@@ -23,7 +23,7 @@ import ru.mrrex.estranslator.transliterator.Transliterator;
 
 @Command(
     name = "translate",
-    description = ""
+    description = "Translates the code according to the selected keyword dictionary."
 )
 public class TranslateCommand implements Callable<Integer> {
 

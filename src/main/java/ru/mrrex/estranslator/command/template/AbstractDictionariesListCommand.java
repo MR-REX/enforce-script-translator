@@ -1,31 +1,31 @@
-package ru.mrrex.estranslator.command.dictionary;
+package ru.mrrex.estranslator.command.template;
 
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
-import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
+import ru.mrrex.estranslator.dictionary.DictionaryManager;
 
-@Command(
-    name = "list",
-    description = "Displays the list of built-in dictionaries."
-)
-public class DictionaryListCommand implements Callable<Integer> {
+public abstract class AbstractDictionariesListCommand<T> implements Callable<Integer> {
 
-    private static final Logger logger = LoggerFactory.getLogger(DictionaryListCommand.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(AbstractDictionariesListCommand.class);
+
+    protected DictionaryManager<T> getDictionaryManager() {
+        return null;
+    }
 
     @Override
     public Integer call() throws Exception {
-        KeywordDictionaryManager manager = KeywordDictionaryManager.INSTANCE;
+        DictionaryManager<T> manager = getDictionaryManager();
 
-        List<String> embeddedDictionaries = manager.getEmbeddedDictionaries();
+        List<String> embeddedDictionaries = manager.getEmbeddedDictionaryIds();
         int embeddedDictionariesCount = embeddedDictionaries.size();
 
         if (embeddedDictionariesCount < 1) {
-            logger.warn("There are no built-in dictionaries");
+            logger.warn("There are no built-in dictionaries.");
             return ExitCode.OK;
         }
 

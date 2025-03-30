@@ -1,4 +1,4 @@
-package ru.mrrex.estranslator.command.dictionary;
+package ru.mrrex.estranslator.command.keywords;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,14 +17,15 @@ import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
 import ru.mrrex.estranslator.exception.DictionaryParseException;
 
 @Command(
-    name = "keywords",
-    description = "Displays the list of predefined keywords available in the dictionary."
+    name = "defined",
+    description = "Displays the list of predefined keywords available for the keyword dictionary."
 )
-public class DictionaryKeywordsCommand implements Callable<Integer> {
+public class KeywordDictionaryDefinedCommand implements Callable<Integer> {
 
-    private static final Logger logger = LoggerFactory.getLogger(DictionaryKeywordsCommand.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(KeywordDictionaryDefinedCommand.class);
 
-    @Option(names = {"-d", "--dict"}, description = "Embedded dictionary ID",
+    @Option(names = {"-d", "--dict", "--dictionary"}, description = "Embedded dictionary ID",
             defaultValue = KeywordDictionaryManager.DEFAULT_DICTIONARY_ID)
     private String dictionaryId;
 

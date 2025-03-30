@@ -30,7 +30,8 @@ public enum KeywordDictionaryManager implements DictionaryManager<KeywordDiction
     private static final String EMBEDDED_DICTIONARIES_DIRECTORY = "keywords";
     private static final String EMBEDDED_DICTIONARY_EXTENSION = ".dict";
 
-    public List<String> getEmbeddedDictionaries() {
+    @Override
+    public List<String> getEmbeddedDictionaryIds() {
         return List.of(DEFAULT_DICTIONARY_ID, "vpp");
     }
 
