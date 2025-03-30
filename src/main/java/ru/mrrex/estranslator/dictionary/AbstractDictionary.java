@@ -8,8 +8,12 @@ public abstract class AbstractDictionary<K, V> {
 
     protected final Map<K, V> dictionary;
 
+    protected AbstractDictionary(Map<K, V> map) {
+        this.dictionary = map;
+    }
+
     protected AbstractDictionary() {
-        this.dictionary = new HashMap<>();
+        this(new HashMap<>());
     }
 
     public void forEach(BiConsumer<K, V> consumer) {

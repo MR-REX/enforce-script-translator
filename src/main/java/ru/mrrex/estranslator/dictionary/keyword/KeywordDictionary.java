@@ -1,9 +1,19 @@
 package ru.mrrex.estranslator.dictionary.keyword;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import ru.mrrex.estranslator.dictionary.AbstractDictionary;
 
 public class KeywordDictionary extends AbstractDictionary<String, String> {
+
+    public KeywordDictionary() {
+        super();
+    }
+
+    public KeywordDictionary(Map<String, String> map) {
+        super(map);
+    }
 
     public String setKeyword(String keyword, String value) {
         return dictionary.put(keyword, value);
@@ -37,6 +47,19 @@ public class KeywordDictionary extends AbstractDictionary<String, String> {
         });
 
         return jointDictionary;
+    }
+
+    public KeywordDictionary reverse() {
+        Map<String, String> reversedMap = new HashMap<>();
+
+        dictionary.forEach((k, v) -> {
+            if (!reversedMap.containsKey(v))
+                reversedMap.put(v, k);
+        });
+
+        System.out.println(reversedMap);
+
+        return new KeywordDictionary(reversedMap);
     }
 
     @Override

@@ -60,6 +60,10 @@ public class TranslateCommand implements Callable<Integer> {
     @Option(names = {"--clear"}, description = "Delete comments in output files")
     private boolean shouldRemoveComments;
 
+    @Option(names = {"-x", "--detranslate"},
+            description = "Set Enforce Script as a source programming language")
+    private boolean shouldReverseKeywordDictionary;
+
     private ScriptTranslatorConfiguration scriptTranslatorConfiguration;
 
     private KeywordDictionary getKeywordDictionary() {
@@ -104,12 +108,20 @@ public class TranslateCommand implements Callable<Integer> {
 
     private ScriptTranslatorConfiguration createTranslatorConfig() {
         ScriptTranslatorConfiguration config = new ScriptTranslatorConfiguration();
-        config.setDictionary(getKeywordDictionary());
-        config.setTransliterator(createTransliterator());
         config.setSingleLineCommentCharacters("//");
         config.setStartMultiLineCommentCharacters("/*");
         config.setEndMultiLineCommentCharacters("*/");
         config.setShouldRemoveComments(shouldRemoveComments);
+
+        KeywordDictionary keywordDictionary = getKeywordDictionary();
+
+        if (shouldReverseKeywordDictionary)
+            keywordDictionary = keywordDictionary.reverse();
+
+        config.setDictionary(keywordDictionary);
+
+        if (!shouldReverseKeywordDictionary)
+            config.setTransliterator(createTransliterator());
 
         return config;
     }
