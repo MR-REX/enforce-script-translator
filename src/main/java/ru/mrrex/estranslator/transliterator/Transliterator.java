@@ -21,14 +21,18 @@ public class Transliterator {
             return null;
 
         StringBuilder builder = new StringBuilder();
+        Character activeQuote = null;
 
         for (int i = 0; i < text.length(); i++) {
             char character = text.charAt(i);
 
-            if (translitMap.containsKey(character)) {
+            if (activeQuote == null && translitMap.containsKey(character)) {
                 builder.append(translitMap.get(character));
                 continue;
             }
+
+            if (character == '"' || character == '\'')
+                activeQuote = (activeQuote == null) ? character : null;
 
             builder.append(character);
         }
