@@ -6,6 +6,9 @@ static: static
 override: override
 proto: proto
 native: native
+volatile: volatile
+event: event
+owned: owned
 
 # Variable modifiers
 
@@ -14,10 +17,13 @@ ref: ref
 const: const
 out: out
 inout: inout
+notnull: notnull
+reference: reference
 
 # Class modifiers
 
 modded: modded
+sealed: sealed
 
 # Other keywords
 
@@ -32,6 +38,8 @@ null: null
 this: this
 super: super
 thread: thread
+vanilla: vanilla
+debug: debug
 
 # Primitive types
 
@@ -49,8 +57,10 @@ false: false
 
 # Other types
 
+array: array
 auto: auto
 Class: Class
+Vector: Vector
 
 # If statement
 
@@ -70,3 +80,21 @@ for: for
 foreach: foreach
 while: while
 continue: continue
+
+# Preprocessor directives
+
+#define: #define
+#ifdef: #ifdef
+#ifndef: #ifndef
+#else: #else
+#endif: #endif
+#include: #include
+
+# Preprocessor macros
+
+__FILE__: __FILE__
+__LINE__: __LINE__
+
+# Global methods
+
+Print: Print

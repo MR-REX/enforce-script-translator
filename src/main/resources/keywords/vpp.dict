@@ -6,6 +6,9 @@ static: незыблемый, вечный
 override: перенять, перебить
 proto: первообраз
 native: родной
+volatile: вихрь
+event: весть
+owned: подвластный
 
 # Variable modifiers
 
@@ -14,10 +17,13 @@ ref: указ, ссыль
 const: приказ_княжий, нерушимый, заветный
 out: исход, молвить
 inout: туда_сюда, внемлить
+notnull: не_ничто, не_пусто
+reference: ориентир
 
 # Class modifiers
 
 modded: перекроенный
+sealed: запечатанный
 
 # Other keywords
 
@@ -28,10 +34,12 @@ enum: перепись
 extends: потомок
 typedef: прозвище, обозвать
 return: воздать, вернуть
-null: ничто, пустошь
+null: ничто, пусто
 this: сей, местный
 super: прародитель
 thread: нить
+vanilla: чистый, белый
+debug: проверка
 
 # Primitive types
 
@@ -49,13 +57,15 @@ false: кривда
 
 # Other types
 
+array: ряд
 auto: само
 Class: Род, Династия
+Vector: Место, Положение
 
 # If statement
 
-if: коли
-else: отнюдь
+if: коли, если, аще
+else: инако, иначе, ежели
 
 # Switch statement
 
@@ -70,3 +80,21 @@ for: доколе, для
 foreach: по_всякому
 while: покуда
 continue: далее
+
+# Preprocessor directives
+
+#define: #ведать
+#ifdef: #коли_ведано, #если_ведано, #аще_ведано
+#ifndef: #коли_не_ведано, #если_не_ведано, #аще_не_ведано
+#else: #инако, #иначе, #ежели
+#endif: #конец
+#include: #вместить
+
+# Preprocessor macros
+
+__FILE__: __СВИТОК__
+__LINE__: __СТРОКА__
+
+# Global methods
+
+Print: Промолвить, Произнести
