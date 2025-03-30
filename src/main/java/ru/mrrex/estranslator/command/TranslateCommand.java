@@ -16,7 +16,7 @@ import ru.mrrex.estranslator.dictionary.character.CharacterDictionaryManager;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionaryManager;
 import ru.mrrex.estranslator.exception.DictionaryParseException;
-import ru.mrrex.estranslator.translator.EnfusionScriptTranslator;
+import ru.mrrex.estranslator.translator.EnforceScriptTranslator;
 import ru.mrrex.estranslator.translator.ScriptTranslator;
 import ru.mrrex.estranslator.translator.ScriptTranslatorConfiguration;
 import ru.mrrex.estranslator.transliterator.Transliterator;
@@ -61,7 +61,7 @@ public class TranslateCommand implements Callable<Integer> {
     private boolean shouldRemoveComments;
 
     @Option(names = {"-x", "--detranslate"},
-            description = "Set Enforce Script as a source programming language")
+            description = "Detranslate code")
     private boolean shouldReverseKeywordDictionary;
 
     private ScriptTranslatorConfiguration scriptTranslatorConfiguration;
@@ -127,7 +127,7 @@ public class TranslateCommand implements Callable<Integer> {
     }
 
     private ScriptTranslator createTranslator() {
-        return new EnfusionScriptTranslator(scriptTranslatorConfiguration);
+        return new EnforceScriptTranslator(scriptTranslatorConfiguration);
     }
 
     private int processFile(Path inputFilePath, Path outputFilePath) {

@@ -2,9 +2,9 @@ package ru.mrrex.estranslator.translator;
 
 import ru.mrrex.estranslator.dictionary.keyword.KeywordDictionary;
 
-public class EnfusionScriptTranslator extends AbstractScriptTranslator {
+public class EnforceScriptTranslator extends AbstractScriptTranslator {
 
-    public EnfusionScriptTranslator(ScriptTranslatorConfiguration config) {
+    public EnforceScriptTranslator(ScriptTranslatorConfiguration config) {
         super(config);
     }
 
