@@ -6,7 +6,7 @@
 
   <groupId>ru.mrrex</groupId>
   <artifactId>slavic-enforce-script-transpiler</artifactId>
-  <version>0.0.0</version>
+  <version>1.0.0</version>
 
   <name>slavic-enforce-script-transpiler</name>
   <url>https://github.com/MR-REX/enforce-script-translator</url>
