@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>ru.mrrex</groupId>
-  <artifactId>slavic-enforce-script-transpiler</artifactId>
+  <artifactId>enforce-script-translator</artifactId>
   <version>1.0.0</version>
 
   <name>slavic-enforce-script-transpiler</name>
