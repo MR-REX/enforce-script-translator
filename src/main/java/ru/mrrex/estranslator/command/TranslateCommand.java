@@ -60,9 +60,11 @@ public class TranslateCommand implements Callable<Integer> {
     @Option(names = {"--clear"}, description = "Delete comments in output files")
     private boolean shouldRemoveComments;
 
-    @Option(names = {"-x", "--detranslate"},
-            description = "Detranslate code")
+    @Option(names = {"--detranslate"}, description = "Detranslate code")
     private boolean shouldReverseKeywordDictionary;
+
+    @Option(names = {"--no-transliterate"}, description = "Do not use a transliterator")
+    private boolean dontUseTransliterator;
 
     private ScriptTranslatorConfiguration scriptTranslatorConfiguration;
 
@@ -120,7 +122,7 @@ public class TranslateCommand implements Callable<Integer> {
 
         config.setDictionary(keywordDictionary);
 
-        if (!shouldReverseKeywordDictionary)
+        if (!dontUseTransliterator)
             config.setTransliterator(createTransliterator());
 
         return config;

@@ -31,7 +31,7 @@ public enum CharacterDictionaryManager implements DictionaryManager<CharacterDic
 
     @Override
     public List<String> getEmbeddedDictionaryIds() {
-        return List.of("cyrillic");
+        return List.of("cyrillic_to_latin");
     }
 
     private CharacterDictionary readDictionary(CharacterDictionaryReader reader)
