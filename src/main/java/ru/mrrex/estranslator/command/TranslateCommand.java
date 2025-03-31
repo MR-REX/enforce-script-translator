@@ -93,7 +93,7 @@ public class TranslateCommand implements Callable<Integer> {
             var stream = Stream.of(characterDictionariesPaths.split(File.pathSeparator));
             
             stream.map(Path::of).filter(Files::isRegularFile).forEach(path -> {
-                logger.debug("Adding characters from \"{}\"...", path);
+                logger.info("Adding characters from \"{}\"...", path);
 
                 try {
                     CharacterDictionary characterDictionary = manager.getDictionary(path);
@@ -133,7 +133,7 @@ public class TranslateCommand implements Callable<Integer> {
     }
 
     private int processFile(Path inputFilePath, Path outputFilePath) {
-        logger.debug("Translating file \"{}\" to \"{}\"...", inputFilePath, outputFilePath);
+        logger.info("Translating file \"{}\" to \"{}\"...", inputFilePath, outputFilePath);
 
         try {
             ScriptTranslator translator = createTranslator();
@@ -188,7 +188,7 @@ public class TranslateCommand implements Callable<Integer> {
             return ExitCode.SOFTWARE;
         }
 
-        logger.debug("Creating configuration for the translator...");
+        logger.info("Creating configuration for the translator...");
         this.scriptTranslatorConfiguration = createTranslatorConfig();
 
         if (isDirectory) {
