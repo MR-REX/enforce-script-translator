@@ -1,6 +1,6 @@
 package ru.mrrex.estranslator.dictionary;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
@@ -13,7 +13,7 @@ public abstract class AbstractDictionary<K, V> {
     }
 
     protected AbstractDictionary() {
-        this(new HashMap<>());
+        this(new LinkedHashMap<>());
     }
 
     public void forEach(BiConsumer<K, V> consumer) {

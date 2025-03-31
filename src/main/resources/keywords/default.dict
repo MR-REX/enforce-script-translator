@@ -1,3 +1,21 @@
+# Preprocessor directives
+
+#define: #define
+#ifdef: #ifdef
+#ifndef: #ifndef
+#else: #else
+#endif: #endif
+#include: #include
+
+# Preprocessor macros
+
+__FILE__: __FILE__
+__LINE__: __LINE__
+
+# Global methods
+
+Print: Print
+
 # General modifiers
 
 private: private
@@ -80,21 +98,3 @@ for: for
 foreach: foreach
 while: while
 continue: continue
-
-# Preprocessor directives
-
-#define: #define
-#ifdef: #ifdef
-#ifndef: #ifndef
-#else: #else
-#endif: #endif
-#include: #include
-
-# Preprocessor macros
-
-__FILE__: __FILE__
-__LINE__: __LINE__
-
-# Global methods
-
-Print: Print

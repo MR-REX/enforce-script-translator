@@ -1,3 +1,21 @@
+# Preprocessor directives
+
+#define: #ведать
+#ifdef: #коли_ведано, #если_ведано, #аще_ведано
+#ifndef: #коли_не_ведано, #если_не_ведано, #аще_не_ведано
+#else: #инако, #иначе, #ежели
+#endif: #конец
+#include: #вместить
+
+# Preprocessor macros
+
+__FILE__: __СВИТОК__
+__LINE__: __СТРОКА__
+
+# Global methods
+
+Print: Промолвить, Произнести
+
 # General modifiers
 
 private: царский, тайный
@@ -80,21 +98,3 @@ for: доколе, для
 foreach: по_всякому
 while: покуда
 continue: далее
-
-# Preprocessor directives
-
-#define: #ведать
-#ifdef: #коли_ведано, #если_ведано, #аще_ведано
-#ifndef: #коли_не_ведано, #если_не_ведано, #аще_не_ведано
-#else: #инако, #иначе, #ежели
-#endif: #конец
-#include: #вместить
-
-# Preprocessor macros
-
-__FILE__: __СВИТОК__
-__LINE__: __СТРОКА__
-
-# Global methods
-
-Print: Промолвить, Произнести

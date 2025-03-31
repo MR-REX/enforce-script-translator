@@ -1,6 +1,6 @@
 package ru.mrrex.estranslator.dictionary.keyword;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import ru.mrrex.estranslator.dictionary.AbstractDictionary;
@@ -50,7 +50,7 @@ public class KeywordDictionary extends AbstractDictionary<String, String> {
     }
 
     public KeywordDictionary reverse() {
-        Map<String, String> reversedMap = new HashMap<>();
+        Map<String, String> reversedMap = new LinkedHashMap<>();
 
         dictionary.forEach((k, v) -> {
             if (!reversedMap.containsKey(v))
