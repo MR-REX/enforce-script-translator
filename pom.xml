@@ -9,7 +9,7 @@
   <version>0.0.0</version>
 
   <name>slavic-enforce-script-transpiler</name>
-  <url>http://www.example.com</url>
+  <url>https://github.com/MR-REX/enforce-script-translator</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
